@@ -118,18 +118,15 @@ vartölu strengur = if length strengur /= 8
 divisibleBy :: Int -> Int -> Bool
 a `divisibleBy` b = a `rem` b == 0
 
--- (=>) :: Bool -> Bool -> Bool
--- True => False = False
---  _   =>   _   = True
+implies :: Bool -> Bool -> Bool
+imples x y = y || not x
 
 hlaupár :: Int -> Bool
-hlaupár ár = ár `divisibleBy` 4 -- && (ár `divisibleBy` 100) `implies` (ár `divisibleBy` 400)
+hlaupár ár = ár `divisibleBy` 4 && imples (ár `divisibleBy` 100) (ár `divisibleBy` 400)
 
 mánaðardagar :: Int -> Int -> Int
 mánaðardagar ár mánuður = case mánuður of
-    02 -> if hlaupár ár
-        then 29
-        else 28
+    02 -> 28 + fromEnum( hlaupár ár )
     04 -> 30
     06 -> 30
     08 -> 30
